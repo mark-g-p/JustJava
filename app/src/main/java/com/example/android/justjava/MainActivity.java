@@ -42,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void decrement(View view) {
         int quantity = getQuantity();
-        if (quantity > 0)
+        if (quantity > 0) {
             quantity -= 1;
+        }
         displayQuality(quantity);
     }
 
@@ -51,14 +52,21 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        int pricePerCup = 9;
+
+
+        // Check if user ordered Whipped Cream
         CheckBox checkBoxWhippedCream = findViewById(R.id.whipped_cream_checkbox);
         boolean hasWhippedCream = checkBoxWhippedCream.isChecked();
+
+        // Check if user ordered Chocolate
         CheckBox checkBoxChocolate = findViewById(R.id.chocolate_checkbox);
         boolean hasChocolate = checkBoxChocolate.isChecked();
+
+        //Check user name.
         EditText nameEditText = findViewById(R.id.name_field);
         String name = nameEditText.getText().toString();
-        String summaryMessage = createOrderSummary(calculatePrice(pricePerCup), hasWhippedCream, hasChocolate, name);
+        int totalPrice = calculatePrice(hasWhippedCream, hasChocolate);
+        String summaryMessage = createOrderSummary(totalPrice, name, hasWhippedCream, hasChocolate);
         displayMessage(summaryMessage);
     }
 
@@ -78,9 +86,22 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Calculates the price of the order.
      * <p>
-     * pricePerCup is the price per cup of coffee
+     *
+     * @param hasWhippedCream does user want whipped cream
+     * @param hasChocolate    does user want chocolate
+     *                        pricePerCup is the price per cup of coffee
      */
-    private int calculatePrice(int pricePerCup) {
+    private int calculatePrice(boolean hasWhippedCream, boolean hasChocolate) {
+        int pricePerCup = 9;
+
+        // Calculate new price per cup.
+        if (hasWhippedCream) {
+            pricePerCup += 1;
+        }
+        if (hasChocolate) {
+            pricePerCup += 2;
+        }
+
         return getQuantity() * pricePerCup;
 
     }
@@ -102,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
      * @return text summary of whole order
      */
 
-    private String createOrderSummary(int priceOfOrder, boolean addWhippedCream, boolean addChocolate, String name) {
+    private String createOrderSummary(int priceOfOrder, String name, boolean addWhippedCream, boolean addChocolate) {
 
         return "Name: " + name + newline +
                 String.format("Add %s? ", getString(R.string.whipped_cream).toLowerCase()) +
