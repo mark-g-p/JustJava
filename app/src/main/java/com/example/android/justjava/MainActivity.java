@@ -127,14 +127,12 @@ public class MainActivity extends AppCompatActivity {
 
     private String createOrderSummary(int priceOfOrder, String name, boolean addWhippedCream, boolean addChocolate) {
 
-        return "Name: " + name + newline +
-                String.format("Add %s? ", getString(R.string.whipped_cream).toLowerCase()) +
-                addWhippedCream + newline +
-                String.format("Add %s? ", getString(R.string.chocolate).toLowerCase()) +
-                addChocolate + newline +
-                getString(R.string.quantity) + ": " + getQuantity() + newline +
-                "Total: " + NumberFormat.getCurrencyInstance().format(priceOfOrder) + newline +
-                getString(R.string.thanks);
+        return getString(R.string.order_summary_name, name) + newline +
+                getString(R.string.order_summary_whipped_cream, addWhippedCream) + newline +
+                getString(R.string.order_summary_chocolate, addChocolate) + newline +
+                getString(R.string.order_summary_quantity, getQuantity()) + newline +
+                getString(R.string.order_summary_price, NumberFormat.getCurrencyInstance().format(priceOfOrder)) + newline +
+                getString(R.string.thank_you);
 
     }
 
